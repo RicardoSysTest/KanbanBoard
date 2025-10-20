@@ -30,6 +30,32 @@
    INSTALLED_APPS =[
     ...
     #apps
-    board,
+    'board',
    ]
+```
+
+7. Create the first view of the app. Go the boar folder and open the view file.
+```py
+    from django.shortcuts import render
+    from django.http import HttpResponse
+
+    def board(request):
+        return HttpResponse('Hello, wolrd')
+```
+
+8. Then go back to the ulrs file from the main project and update the file with:
+```py
+from django.urls import path
+
+from board import views
+
+urlpatterns=[
+    path('admin/',admin.site.urls),
+    path('home/',views.board),
+]
+```
+
+9. Then we need to confirm that everything is working with the command
+```py
+   py manage.py runserver
 ```
