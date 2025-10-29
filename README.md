@@ -1,61 +1,12 @@
 # Kanban Board with Django
 
-1. To start the Virtual Enviroment execute the following command: 
-```bash
-    ./venv/Scripts/activate
-```
-
-2. Install django with the following command
-```bash
-    pip install django
-```
-
-3.Create Django Project with the following command:
-```bash
-    django-admin startproject kanban .
-``` 
-
-4. Ensure that everything starting the server
-```bash
-   py manage.py runserver
-```
-
-5. Create Django App with command:
-```bash
-    py manage.py startapp board
-```
-
-6. Install application in the setting folder from the project kanban. 
-```py
-   INSTALLED_APPS =[
-    ...
-    #apps
-    'board',
-   ]
-```
-
-7. Create the first view of the app. Go the boar folder and open the view file.
-```py
-    from django.shortcuts import render
-    from django.http import HttpResponse
-
-    def board(request):
-        return HttpResponse('Hello, wolrd')
-```
-
-8. Then go back to the ulrs file from the main project and update the file with:
-```py
-from django.urls import path
-
-from board import views
-
-urlpatterns=[
-    path('admin/',admin.site.urls),
-    path('home/',views.board),
-]
-```
-
-9. Then we need to confirm that everything is working with the command
-```py
-   py manage.py runserver
-```
+This a personal projecto to document the step by step o how to implmented the backend of a Kanban board.
+01. [Starting Your Django Project](01_Starting_Your_Django_Project.md)
+02. [Build-In User Management](02_Build_In_User_Management.md)
+03. [How Django Interact with Databases](03_How_Django_Interact_with_Databases.md)
+04. [Building Dynamic Webpages]()
+05. [Building Robust Front-Ends in Django]()
+06. [Django Forms: Valisation Shoudln't be hard]()
+07. [Workgin with Existing Data]()
+08. [Using Django to Store and Display User Specific Data]()
+09. [Login, Logout amd Signup are Simple]()              
