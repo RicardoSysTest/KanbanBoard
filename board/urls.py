@@ -21,4 +21,5 @@ from . import views
 
 urlpatterns = [
     path('home', views.board),
+    path('authorized', views.authorized),
 ]
