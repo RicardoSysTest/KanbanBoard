@@ -66,6 +66,54 @@ There is a new folder called migrations, and inside of it, there's a new file ca
 The changes were applied to the database and we have a shiny new table.
 
 ## Using Adming for data creation and manipulation
+We've already created a table for notes, but if you're curious enough to go to the Django admin interface, you'll notice that nothing really changed. Why is that? The same way we didn't have to create the user model, it was just there, we didn't have to configure it to appear on the Django interface. When we are creating a new model, we need to do it ourselves. So, let's go back to the notes app and open a file called `admin.py` 
 
+This is where we're going to add which models can be displayed, and thus modified, via the Django admin interface. First, let's create a class and call it NotesAdmin. This class should inherit from admin.ModelAdmin.  Let's add pass here because we don't want any additional configuration on this admin model
+```py
+# Fomr this folder import models
+from . import models
+
+from django.contrib import admin
+
+# Register your models here.
+class NotesAdmin():
+    pass
+```
+Now, what we need to do is import from this folder, let's import models, and on the bottom of the file, we're going to register that that model is attached to this admin model. So, let's write admin.site.register, then models.Notes, and NotesAdmin. Okay, that's it. Let's go back to the admin and refresh it. 
+```py
+# Fomr this folder import models
+from . import models
+
+from django.contrib import admin
+
+# Register your models here.
+class NotesAdmin():
+    pass
+
+
+admin.site.register(models.Notes, NotesAdmin)
+```
+Now we can see that the notes model is available on the admin interface. Let's use the add button here to create a new note. 
+![alt text](image-2.png)
+
+Let's title My first Note, and then Django is so Amazing! Let's save this. Okay, we have our first note created. One thing that isn't really nice is that it is listed as this Notes object 1. 
+![alt text](image-3.png)
+This is fine for now, but if we have a long list of notes, how can we tell which one is which? Let's go back to the admin class. Instead of pass here, we can pass list display, which is going to be a tuple. And let's pass title here. 
+```py
+# Fomr this folder import models
+from . import models
+
+from django.contrib import admin
+
+# Register your models here.
+class NotesAdmin():
+    list_display = ('title', )
+
+
+admin.site.register(models.Notes, NotesAdmin)
+```
+Let's save this. It restarted. And now if we refresh here, there, instead of having this ugly name, we have the title of the note being displayed here. 
+![alt text](image-4.png)
+The default configuration of admin also allows that all fields can be changed by all users. However, we can edit the admin model class and start adding some specialized logic. We can remove some fields from being edited. We can allow only staff users to write notes. There's a lot we can do. The sky's the limit. Django admin is highly configurable.
 
 ## Using Django shell for creating and quering data.
