@@ -10,4 +10,4 @@ class NotesAdmin(admin.ModelAdmin):
 
 
 # Register Notes Model
-admin.site.register(models.Notes, NotesAdmin)
+admin.site.register(models.Task, NotesAdmin)

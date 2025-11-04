@@ -22,4 +22,5 @@ from board import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("board.urls")),
+    path('smart/', include("notes.urls")),
 ]

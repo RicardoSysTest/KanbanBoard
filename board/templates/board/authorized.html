@@ -6,6 +6,13 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>You are in a Restricted Area</h1>
+    <h1>List of Task In BackLog</h1>
+    <div>
+      <ul>
+        {% for task in list_task%}
+        <li>{{task.title}}</li>
+        {% endfor %}
+      </ul>
+    </div>
   </body>
 </html>

@@ -117,3 +117,48 @@ Let's save this. It restarted. And now if we refresh here, there, instead of hav
 The default configuration of admin also allows that all fields can be changed by all users. However, we can edit the admin model class and start adding some specialized logic. We can remove some fields from being edited. We can allow only staff users to write notes. There's a lot we can do. The sky's the limit. Django admin is highly configurable.
 
 ## Using Django shell for creating and quering data.
+To handle models through code. Django has a tool we can use to check the content of a database, which will make our lives so much easier, the Django shell. Let's go to the terminal and type:
+```bash
+     py manage.py shell
+```
+This is no Python interpreter is tightly coupled with our project. For instance, we can type:
+```py
+from notes.models import Notes
+```
+With this, we can use it to query the objects in the database. Let's try to get the first note: 
+```py
+   mynote = Notes.objects.get(pk='1')
+```
+Notes.objects is the main way of accessing data from the note table in the database. The .get method will search for one object, which the pk( private, key) equal to one and returns that object. Now, we can use it to access attributes of the model by simply typing mynote.title or mynote.text:
+```bash
+    mynote.title
+    mynote.text
+``` 
+
+We can also query for all objects in the database by using the method .all. instead of the .get, Notes.objects.all. 
+```bash
+    Notes.objects.all()
+``` 
+
+The return of this function is a query set, which is a very useful tool. We can also create a new note via the comment line. Let's try it out:
+```bash
+    new_note = Notes.objects.create(title="This a a second note", text="This second notes is two add new elements")
+```
+We can also filter notes that we want. For instance, we can query for notes that have titles starting with the word my:
+```bash
+    Notes.objects.filter(title__startswith = "My")
+```
+The filter returns a query set that returns the first object. We can also search by something that exists inside the notes. For instance, we can try to find text that contains the word Django: 
+```bash
+ Notes.objects.filter(text__icontains = "Django")
+```
+We can also query for the opposite. We can actually filter notes by excluding them. So let's do the opposite: 
+```bash
+    Notes.objects.exclude(text__icontains = "Django")
+```
+We can add multiple filters at once. For instance, we can filter all the notes containing the word Django, but the title doesn't say anything about Django:
+```bash
+    Notes.objects.filter(text__icontains='Django').exclude(title__icontains='Django')
+```
+
+Django ORM has a very neat interface that is very intuitive and yet highly powerful. I highly encourage you to try more queries by yourself.
