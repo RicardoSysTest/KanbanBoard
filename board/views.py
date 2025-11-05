@@ -1,18 +1,20 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.views.generic import TemplateView
 from datetime import datetime
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from . models import Task
 
 # Create your views here.
 
 
-def board(request):
-    return render(request, 'board/Index.html', {'today': datetime.today()})
+class HomeView(TemplateView):
+    template_name = 'board/index.html'
+    extra_context = {'today': datetime.today()}
 
 
-@login_required(login_url='/admin')
-def authorized(request):
+class AuthorizedView(LoginRequiredMixin, TemplateView):
+    template_name = 'board/authorized.html'
+    login_url = '/admin'
     all_task = Task.objects.all()
-    return render(request, 'board/authorized.html', {'list_task': all_task})
+    extra_context = {'list_task': all_task}

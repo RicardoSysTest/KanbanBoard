@@ -20,6 +20,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('home', views.board),
-    path('todolist', views.authorized),
+    path('home', views.HomeView.as_view()),
+    path('todolist', views.AuthorizedView.as_view()),
 ]
