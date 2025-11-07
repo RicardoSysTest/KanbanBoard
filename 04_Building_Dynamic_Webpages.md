@@ -323,7 +323,7 @@ def detail(request, pk):
 
 ```
 
-Okay, now we can start our class-based view. Let's go to create a class. So let's call it NotesListView that inherits from ListView. And we need to add here which model we're listing objects from. So let's add here Model = Notes. Okay. And because our template is expecting to receive a list called Notes, we should also add here that the context object name is different from the default. The default is objects, but we call it notes.
+Okay, now we can start our class-based view. Let's go to create a class. So let's call it NotesListView that inherits from ListView. And we need to add here which model we're listing objects from. So let's add here Model = Notes. Okay. And because our template is expecting to receive a list called Notes, we should also add here that the context object name is different from the default. The default is objects, but we call it notes. That's it, that's our whole endpoint. 
 ```py
 from django.shortcuts import render
 from django.http import Http404
@@ -331,7 +331,11 @@ from .models import Notes
 from django.views.generic import ListView
 
 # Create your views here.
-
+class NoteListView(ListView):
+    # List objects from Notes model
+    model = Notes
+    # Call the conect object name that is different from the default
+    context_object_name = 'notes'
 
 def list(request):
 
@@ -350,4 +354,95 @@ def detail(request, pk):
     return render(request, 'notes/notes_detail.html', {'note': note})
 
 ```
-That's it, that's our whole endpoint. The only thing we need to do now is change the endpoint URL. So let's go back here, then change list to NotesListView.as view, and that's it. We can go back here and also delete our old endpoint. We don't need it anymore. Okay, it restarted, so let's try it out. Instead of homes, we're going to go to smart notes. There you go. You may be thinking, "What's happening here? Where is the query?" The list view is already making the query for us. We also don't need to define a template name because we created a template name that follows the standard of that class-based view. But if we add a different name, it might not work. So instead we can pass here an attribute called template name. You guessed it correctly. So we can say here, notes notes_list.html. Yeah, that's all we have to do for the list endpoint. Now we can go to the detail view. Can you guess what we need? Not much else, just import here DetailView. And then let's create the class. So class NotesDetailView that inherits from DetailView. Here we need model = Notes and context_object_name = to note. And that's it. Wait, just that? You might be thinking like, "What about the exception we throw when the object can't be found?" There's no need. The detail class-based view already take care of that for us. There is no need for us to handle any of that complexity. Let's change URL and give it a try. So in here, let's change detail for NotesDetailView.as_view. Let's go back then .1 and it works. And if we go to something that doesn't exist, yep, it's still returning a 404. Hopefully at this point you can already see how class-based views are an amazing feature of Django and we've only scratched the surface. There are very few case scenarios where you will prefer to create a function-based view as the ones you just replaced. In the vast majority of cases, a class-based view will be the ideal tool for you.
+The only thing we need to do now is change the endpoint URL (Open the `urls.py` from notes). So let's go back here, then change list to NotesListView.as view, and that's it. 
+```py
+    from django.urls import include, path
+
+    from . import views
+
+    urlpatterns = [
+        #path('notes', views.list),
+        path('notes', views.NotesListView.as_view()),
+        path('notes/<int:pk>', views.detail),
+    ]
+
+```
+ We can go back here and also delete our old endpoint.
+```py
+from django.shortcuts import render
+from django.http import Http404
+from .models import Notes
+from django.views.generic import ListView
+
+# Create your views here.
+class NoteListView(ListView):
+    # List objects from Notes model
+    model = Notes
+    # Call the conect object name that is different from the default
+    context_object_name = 'notes'
+
+def detail(request, pk):
+    try:
+        note = Notes.objects.get(pk=pk)
+    except Notes.DoesNotExist:
+        raise Http404("Note doesn't exist")
+    return render(request, 'notes/notes_detail.html', {'note': note})
+```
+Instead of homes, we're going to go to smart notes. The list view is already making the query for us. We also don't need to define a template name because we created a template name that follows the standard of that class-based view. But if we add a different name, it might not work. So instead we can pass here an attribute called template name.
+```py
+from django.shortcuts import render
+from django.http import Http404
+from .models import Notes
+from django.views.generic import ListView
+
+# Create your views here.
+class NoteListView(ListView):
+    # List objects from Notes model
+    model = Notes
+    # Call the conect object name that is different from the default
+    context_object_name = 'notes'
+    template_name = "notes/notes_list.html"
+
+def detail(request, pk):
+    try:
+        note = Notes.objects.get(pk=pk)
+    except Notes.DoesNotExist:
+        raise Http404("Note doesn't exist")
+    return render(request, 'notes/notes_detail.html', {'note': note})
+```
+ You guessed it correctly. So we can say here, notes notes_list.html. Yeah, that's all we have to do for the list endpoint. 
+ 
+ For the detail view we need to just import the `DetailView` and create the `class NotesDetailView` that inherits `from DetailView`. Here we need `model = notes` and  `context_object_name = note` 
+ ```py
+from django.shortcuts import render
+from django.http import Http404
+from .models import Notes
+from django.views.generic import ListView, DetailView
+
+# Create your views here.
+class NoteListView(ListView):
+    # List objects from Notes model
+    model = Notes
+    # Call the conect object name that is different from the default
+    context_object_name = 'notes'
+    template_name = "notes/notes_list.html"
+
+class DetailView(DetailView):
+    model = Notes
+    context_object_name = 'note'
+ ```
+ What about the exception we throw when the object can't be found?" There's no need. The detail class-based view already take care of that for us. There is no need for us to handle any of that complexity.  Let's change URL and give it a try. So in here, let's change `views.detail` for `views.NotesDetailView.as_view()`.
+ ```py
+    from django.urls import include, path
+
+    from . import views
+
+    urlpatterns = [
+        #path('notes', views.list),
+        path('notes', views.NotesListView.as_view()),
+        path('notes/<int:pk>', views.NotesDetailView.as_view()),
+    ]
+
+```
+ 
+  And if we go to something that doesn't exist, yep, it's still returning a 404. Hopefully at this point you can already see how class-based views are an amazing feature of Django and we've only scratched the surface. There are very few case scenarios where you will prefer to create a function-based view as the ones you just replaced. In the vast majority of cases, a class-based view will be the ideal tool for you.

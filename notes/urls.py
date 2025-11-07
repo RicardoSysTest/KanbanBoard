@@ -19,6 +19,6 @@ from django.urls import include, path
 from . import views
 
 urlpatterns = [
-    path('notes', views.list),
-    path('notes/<int:pk>', views.detail),
+    path('notes', views.NoteListView.as_view()),
+    path('notes/<int:pk>', views.NoteDetailView.as_view()),
 ]
