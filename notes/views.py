@@ -1,22 +1,52 @@
-from django.shortcuts import render
-from django.http import Http404
-from django.views.generic import CreateView, ListView, DetailView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView
+from django.views.generic.edit import DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http.response import HttpResponseRedirect
+from django.urls import reverse_lazy
 from .models import Notes
+from .forms import NotesForm
 
 # Create your views here.
 
 
+class NotesDeleteView(DeleteView):
+    model = Notes
+    success_url = 'notes/noteslist'
+    template_name = 'notes/notes_delete.html'
+    login_url = 'login'
+
+
+class NotesUpdateView(UpdateView):
+    model = Notes
+    success_url = 'notes/noteslist'
+    form_class = NotesForm
+    login_url = 'login'
+
+
 class NotesCreateView(CreateView):
     model = Notes
-    fields = ['title', 'text']
-    success_url = 'smart/notes'
+    success_url = 'notelist'
+    form_class = NotesForm
+    login_url = 'login'
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 
-class NoteListView(ListView):
+class NoteListView(LoginRequiredMixin, ListView):
     model = Notes
-    context_object_name = 'notes'
+    context_object_name = 'notelist'
+    template_name = "notes/notes_list.html"
+    login_url = "/login"
+
+    def get_queryset(self):
+        return self.request.user.notes.all()
 
 
 class NoteDetailView(DetailView):
     model = Notes
-    context_object_name = 'note'
+    context_object_name = 'notes'
+    login_url = 'login'
