@@ -1,3 +1,22 @@
+{% extends "base.html" %} {% block content %}
+<div class="border rounded">
+  <h1 class="my-5">{{notes.title}}</h1>
+  <p>{{notes.text}}</p>
+
+  <div class="border border-0 p-2">
+    <a href="{% url 'notes.list' %}" class="btn btn-secondary btn-lg me-md-2"
+      >Back</a
+    >
+    <a
+      href="{% url 'notes.update' pk=notes.id %}"
+      class="btn btn-secondary btn-lg me-md-2"
+      >Edit</a
+    >
+    <a
+      href="{% url 'notes.delete' pk=notes.id %}"
+      class="btn btn-danger btn-lg me-md-2"
+      >Delete</a
+    >
 {% extends "base.html" %} 
 {% block content %} 
 {% load blog_extras %} 
