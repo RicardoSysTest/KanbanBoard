@@ -11,21 +11,21 @@ from .forms import NotesForm
 
 class NotesDeleteView(DeleteView):
     model = Notes
-    success_url = 'notes/noteslist'
+    success_url = '/notes/notelist'
     template_name = 'notes/notes_delete.html'
     login_url = 'login'
 
 
 class NotesUpdateView(UpdateView):
     model = Notes
-    success_url = 'notes/noteslist'
+    success_url = '/notes/notelist'
     form_class = NotesForm
     login_url = 'login'
 
 
 class NotesCreateView(CreateView):
     model = Notes
-    success_url = 'notelist'
+    success_url = '/notes/notelist'
     form_class = NotesForm
     login_url = 'login'
 

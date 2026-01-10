@@ -1,18 +1,39 @@
 {% extends 'base.html' %} {% block content %}
-<h1 class="my-5">These are the notes:</h1>
-<div class="row row-cols3 g-2">
-  {% for note in notelist %}
-  <div class="col">
-    <div class="p-3 border">
-      <a
-        href="{% url 'notes.detail' pk=note.id %}"
-        class="text-dark text-decoration-non"
-        ><h3>{{note.title}}</h3></a
-      >
-      {{note.text|truncatechars:10}}
-    </div>
+
+<section id="blog">
+  <div class="blog-heading">
+    <h1 class="my-5">
+      Music, Working, Ideas, Learning and everything to be better
+    </h1>
   </div>
-  {% endfor %}
-</div>
+  <div class="card-deck">
+    {% for note in notelist %}
+    <div class="card text-white bg-dark mb-3 rounded-5 shadow">
+      <div class="row no-gutters">
+        <div class="col-md-4">
+          {% if note.image %}
+          <img
+            class="card-img rounded-5"
+            src="{{ note.image.url }}"
+            alt="Card image cap"
+          />
+          {% endif %}
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{note.title}}</h5>
+            <p class="card-text">{{note.text|truncatechars:20}}</p>
+            <a
+              href="{% url 'notes.detail' pk=note.id %}"
+              class="text-white btn btn-success"
+              >Read</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
 
 {% endblock %}
