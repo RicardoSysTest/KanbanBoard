@@ -16,42 +16,40 @@
     />
     
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
 
     <title>Smart Notes</title>
   </head>
-  <body>
-    <div class="p-5">
-      <nav class="navbar fixed-top navbar-dark bg-dark">
-        {% if user.is_authenticated %}
-        <!-- Logout Logic -->
-        <div class="ms-auto">
-          <a href="{% url 'notes.list' %}" class="btn btn-outline-light me-1"
-            >Home</a
-          >
-          <a href="{% url 'notes.new' %}" class="btn btn-outline-light me-1"
-            >Create</a
-          >
-          <a href="{% url 'logout' %}" class="btn btn-outline-light me-1"
-            >Logout</a
-          >
-        </div>
-        {% else %}
-        <div class="ms-auto">
-          <a href="{% url 'login' %}" class="btn btn-outline-light me-1"
-            >Login</a
-          >
-          <a href="{% url 'singup' %}" class="btn btn-outline-light me-1"
-            >Signup</a
-          >
-        </div>
-        {% endif %}
+  <body style=" background-image: url({% static 'img/Background.jpg' %})">
+    <header class="primary-header">
+      <nav>
+        <ul id="primary-navigation" class="primary-navigation flex">
+            <li class="active">
+                <a href="{% url 'notes.list' %}" class="ff-sans-cond uppercase text-white letter-spacing-2"><span aria-hidden="true">00</span>Home</a>
+            </li>
+            {% if user.is_authenticated %}
+              <li>
+                  <a href="{% url 'notes.new' %}" class="ff-sans-cond uppercase text-white letter-spacing-2"><span aria-hidden="true">01</span>Create</a>
+              </li>
+              <li>
+                  <a href="{% url 'logout' %}" class="ff-sans-cond uppercase text-white letter-spacing-2"><span aria-hidden="true">02</span>Logout</a>
+              </li>
+            {% else %}
+              <li>
+                  <a href="{% url 'login' %}" class="ff-sans-cond uppercase text-white letter-spacing-2"><span aria-hidden="true">01</span>Login</a>
+              </li>
+              <li>
+                  <a href="{% url 'singup' %}" class="ff-sans-cond uppercase text-white letter-spacing-2"><span aria-hidden="true">02</span>Signup</a>
+              </li>
+            {% endif %}
+        </ul>
       </nav>
-
-      <div class="p-3 my-5 mb-5 text-center container rounded">
+    </header>
+    <div class="p-3 my-5 mb-5 text-center container rounded">
         {% block content%} {% endblock %}
-      </div>
     </div>
-        <!-- and it's easy to individually load additional languages -->
+
+    <!-- and it's easy to individually load additional languages -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/es/languages/python.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script>
