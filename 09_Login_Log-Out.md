@@ -226,3 +226,4 @@ Okay, we are so close. It's time to add it all together. So let's go to the `bas
  Let's go back, let's refresh. And there you go. Done and done. Now we have our whole app and a navigation bar fully working.
 
 ## Finishing Touches
+https://www.youtube.com/watch?v=mYh53IM2KLA

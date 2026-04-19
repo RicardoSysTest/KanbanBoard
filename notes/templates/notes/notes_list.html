@@ -1,5 +1,41 @@
 {% extends 'base.html' %} {% block content %}
 {% load blog_extras %} 
+
+<div class="container swiper">
+<div class="wrapper">
+  <div class="card-list swiper-wrapper">
+    {% for note in notelist %}
+      <div class="card swiper-slide">
+        <div class="card-image">
+          <img src="{{ note.image.url }}" alt="">
+          <p class="card-tag">Development</p>
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">{{note.title}}</h3>
+          <p class="card-text">{{note.text|truncatechars:300 }}</p>
+          <div class="card-footer">
+            <div class="card-profile">
+              {% if note.image %}
+                <img src="{{ note.image.url }}" alt="">
+              {% endif %}
+              <div class="card-profile-info">
+                <span class="card-profile-name">Ricardo Yepez</span>
+                <span class="card-profile-role">Developer</span>
+              </div>
+            </div>
+            <a href="{% url 'notes.detail' pk=note.id %}" class="card-button">Read More</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+  </div>
+  <div class="swiper-pagination"></div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+</div>
+</div>
+
+<!--
 <section id="blog">
   <div class="blog-heading">
     <h1 class="my-5">
@@ -35,5 +71,5 @@
     {% endfor %}
   </div>
 </section>
-
+-->
 {% endblock %}

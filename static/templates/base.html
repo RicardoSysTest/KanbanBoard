@@ -15,12 +15,18 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/tomorrow-night-blue.min.css"
     />
     
+    <link 
+      rel="stylesheet" 
+      href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.css"
+    />
+
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/card.css' %}">
 
     <title>Smart Notes</title>
   </head>
-  <body style=" background-image: url({% static 'img/Background.jpg' %})">
+  <body>
     <header class="primary-header">
       <nav>
         <ul id="primary-navigation" class="primary-navigation flex">
@@ -52,8 +58,43 @@
     <!-- and it's easy to individually load additional languages -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/es/languages/python.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js"></script>
     <script>
       hljs.highlightAll();
+    </script>
+    <script>
+      const swiper = new Swiper('.wrapper', {
+
+      // Optional parameters
+      loop: true,
+      spaceBetween: 30,
+
+      // If we need pagination
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+        dynamicBullets: true,
+      },
+
+      // Navigation arrows
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+
+      breakpoints:{
+        0:{
+          slidesPerView: 1,
+        },
+        768:{
+          slidesPerView: 2,
+        },
+        1024:{
+          slidesPerView: 3,
+        }
+      }
+
+});
     </script>
   </body>
 </html>
